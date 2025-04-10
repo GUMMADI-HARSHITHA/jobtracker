@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-// Base backend URL (without /applications now)
-const API_URL = 'https://jobtracker-cvx5.onrender.com/api/applications';
+// Base backend URL
+const API_URL = 'https://jobtracker-cvx5.onrender.com/api';
 
 // Log login attempt (no auth, just store in DB)
 export const register = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}`, {
+    const response = await axios.post(`${API_URL}/login-attempts`, {
       email,
       password
     });
