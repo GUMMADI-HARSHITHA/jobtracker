@@ -16,49 +16,45 @@ const Home = ({ isLoggedIn, onLogin }) => {
     try {
       const response = await register(email, password);
 
-      if (response.token) {
-        onLogin(email);
-        navigate('/applications');
-      } else {
-        setError('Authentication failed - no token received');
-      }
+      // No token check required
+      onLogin(email);
+      alert(response.message || 'Login attempt recorded!');
+      navigate('/applications');
     } catch (err) {
-      setError(err.message || 'Authentication failed');
+      setError(err.message || 'Login attempt failed');
     }
   };
 
   return (
     <div className="home-container">
-  <div className="auth-section">
-    <div className="auth-card">
-      <h2>Welcome </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <div className="auth-section">
+        <div className="auth-card">
+          <h2>Welcome</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && <div className="error-message">{error}</div>}
+            <button className="submit-button" type="submit">Continue</button>
+          </form>
         </div>
-        <div className="input-group">
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button className="submit-button" type="submit">Continue</button>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
-
-           
   );
 };
 
