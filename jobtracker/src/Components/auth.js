@@ -4,7 +4,7 @@ const API_URL = 'https://jobtracker-cvx5.onrender.com';
 
 export const register = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, {
+    const response = await axios.post(`${API_URL}`, {
       email,
       password
     });
