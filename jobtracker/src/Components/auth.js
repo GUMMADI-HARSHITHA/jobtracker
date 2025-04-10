@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://jobtracker-cvx5.onrender.com';
+const API_URL = 'https://jobtracker-cvx5.onrender.com/api/applications';
 
 export const register = async (email, password) => {
   try {
